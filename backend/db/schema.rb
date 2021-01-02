@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 2021_01_02_184324) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
-    t.string "password"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -33,6 +32,7 @@ ActiveRecord::Schema.define(version: 2021_01_02_184324) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
+    t.string "password"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
