@@ -1,6 +1,9 @@
 module Api
   module V1
     class TasksController < ApplicationController
+      include JwtAuthenticator
+
+      before_action :jwt_authenticate
       before_action :set_task, only: [:show, :update, :destory]
 
       def index
