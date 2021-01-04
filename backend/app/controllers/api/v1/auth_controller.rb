@@ -4,18 +4,22 @@ module Api
       include JwtAuthenticator
 
       def login
-        @user = User.find_by(name: params[:name], password: params[:password])
+        @user = User.find_by(name: params[:username], password: params[:password])
         if @user
+          puts params
           jwt_token = encode(@user.id)
-          response.headers['X-Authentication-Token'] = jwt_token
-          render json: @user
+          render json: {data: @user, access: jwt_token}
         else
           render json: {status: 'ERROR', message: "ログイン名またはパスワードが誤っています。"}
         end
       end
 
+      def get_users
+        @users = User.all.order(id: :asc)
+      end
+
       def create
-        @user = User.new(name: params[:name], password: params[:password])
+        @user = User.new(name: params[:username], password: params[:password])
         if @user.save
           jwt_token = encode(@user.id)
           response.headers['X-Authentication-Token'] = jwt_token

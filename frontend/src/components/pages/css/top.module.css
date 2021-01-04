@@ -1,0 +1,9 @@
+.app__root {
+    text-align: center;
+    color: dimgray;
+    margin: 25px;
+}
+
+.app__button {
+    margin: 25px;
+}
