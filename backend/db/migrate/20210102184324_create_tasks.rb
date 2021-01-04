@@ -9,7 +9,7 @@ class CreateTasks < ActiveRecord::Migration[6.1]
       t.integer :responsible_id
       t.timestamps
     end
-    add_foreign_key :tasks, :users, column: :user_id
+    add_foreign_key :tasks, :users, column: :owner_id
     add_foreign_key :tasks, :users, column: :responsible_id
   end
 end

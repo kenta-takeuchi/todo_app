@@ -85,7 +85,7 @@ const TaskList: React.FC = () => {
 
     const renderSwitch = (statusName: string) => {
         switch (statusName) {
-            case "Todo":
+            case "todo":
                 return (
                     <Badge variant="dot" color="error">
                         {statusName}
@@ -143,8 +143,8 @@ const TaskList: React.FC = () => {
                                         column === "status" ||
                                         column === "category" ||
                                         column === "estimate" ||
-                                        column === "responsible" ||
-                                        column === "owner") && (
+                                        column === "responsible_id" ||
+                                        column === "owner_id") && (
                                         <TableCell align="center" key={colIndex}>
                                             <TableSortLabel
                                                 active={state.activeKey === column}
@@ -165,7 +165,7 @@ const TaskList: React.FC = () => {
                                 {Object.keys(row).map(
                                     (key, colIndex) =>
                                         (key === "title" ||
-                                            key === "status_name" ||
+                                            key === "status" ||
                                             key === "category_item" ||
                                             key === "estimate") && (
                                             <TableCell
@@ -177,7 +177,7 @@ const TaskList: React.FC = () => {
                                                     dispatch(editTask(initialState.editedTask));
                                                 }}
                                             >
-                                                {key === "status_name" ? (
+                                                {key === "status" ? (
                                                     renderSwitch(row[key])
                                                 ) : (
                                                     <span>{row[key]}</span>
@@ -186,10 +186,10 @@ const TaskList: React.FC = () => {
                                         )
                                 )}
                                 <TableCell>
-                                    row["responsible"]
+                                    {row["responsible_id"]}
                                 </TableCell>
                                 <TableCell>
-                                    row["responsible"]
+                                    {row["responsible_id"]}
                                 </TableCell>
 
                                 <TableCell align="center">

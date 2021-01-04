@@ -5,7 +5,8 @@ Rails.application.routes.draw do
       post 'login' , to: 'auth#login'
       post 'user/create/', to: 'auth#create'
       post 'user/delete/', to: 'auth#delete'
-      get 'user/all/', to: 'auth#get_users'
+      get 'user/list/', to: 'auth#get_users'
+      get 'category/list', to: 'category#get_categories'
     end
   end
 end

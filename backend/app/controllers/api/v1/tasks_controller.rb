@@ -4,21 +4,21 @@ module Api
       include JwtAuthenticator
 
       before_action :jwt_authenticate
-      before_action :set_task, only: [:show, :update, :destory]
+      before_action :set_task, only: [:show, :update, :destroy]
 
       def index
-        tasks = Task.all.order(created_at: :desc)
-        render json: { status: 'SUCCESS', message: "Loaded tasks", data: tasks }
+        @tasks = Task.all.order(created_at: :desc)
+        render json: @tasks
       end
 
       def show
-        render json: { status: 'SUCCESS', message: 'Loaded the task', data: @task }
+        render json: @task
       end
 
       def create
         task = Task.new(task_params)
         if task.save
-          render json: { status: 'SUCCESS', data: task }
+          render json: task
         else
           render json: { status: 'ERROR', data: task.errors }
         end
@@ -26,12 +26,12 @@ module Api
 
       def destroy
         @task.destroy
-        render json: { status: 'SUCCESS', message: 'Deleted the task', data: @task }
+        render json: { status: 'SUCCESS', message: 'Deleted the task' }
       end
 
       def update
         if @task.update(task_params)
-          render json: { status: 'SUCCESS', message: 'Updated the task', data: @task }
+          render json: @task
         else
           render json: { status: 'ERROR', message: 'Not updated', data: @task.errors }
         end

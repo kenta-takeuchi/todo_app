@@ -31,9 +31,9 @@ export interface READ_TASK {
     category_item: string;
     estimate: number;
     responsible: number;
-    responsible_username: string;
+    responsible_id: number;
     owner: number;
-    owner_username: string;
+    owner_id: number;
     created_at: string;
     updated_at: string;
 }

@@ -5,7 +5,7 @@ import { READ_TASK, POST_TASK, TASK_STATE, USER, CATEGORY } from "../types";
 
 export const fetchAsyncGetTasks = createAsyncThunk("task/getTask", async () => {
     const res = await axios.get<READ_TASK[]>(
-        `${process.env.BASE_API_URL}/api/v1/tasks/`,
+        `${process.env.REACT_APP_API_URL}/api/v1/tasks/`,
         {
             headers: {
                 Authorization: `JWT ${localStorage.localJWT}`,
@@ -19,7 +19,7 @@ export const fetchAsyncGetUsers = createAsyncThunk(
     "task/getUsers",
     async () => {
         const res = await axios.get<USER[]>(
-            `${process.env.BASE_API_URL}/api/v1/users/`,
+            `${process.env.REACT_APP_API_URL}/api/v1/user/list`,
             {
                 headers: {
                     Authorization: `JWT ${localStorage.localJWT}`,
@@ -34,7 +34,7 @@ export const fetchAsyncGetCategory = createAsyncThunk(
     "task/getCategory",
     async () => {
         const res = await axios.get<CATEGORY[]>(
-            `${process.env.BASE_API_URL}/api/v1/category/`,
+            `${process.env.REACT_APP_API_URL}/api/v1/category/list`,
             {
                 headers: {
                     Authorization: `JWT ${localStorage.localJWT}`,
@@ -49,7 +49,7 @@ export const fetchAsyncCreateCategory = createAsyncThunk(
     "task/createCategory",
     async (item: string) => {
         const res = await axios.post<CATEGORY>(
-            `${process.env.BASE_API_URL}/api/v1/category/`,
+            `${process.env.REACT_APP_API_URL}/api/v1/category/`,
             { item: item },
             {
                 headers: {
@@ -65,7 +65,7 @@ export const fetchAsyncCreateTask = createAsyncThunk(
     "task/createTask",
     async (task: POST_TASK) => {
         const res = await axios.post<READ_TASK>(
-            `${process.env.BASE_API_URL}/api/v1/tasks/`,
+            `${process.env.REACT_APP_API_URL}/api/v1/tasks/`,
             task,
             {
                 headers: {
@@ -82,7 +82,7 @@ export const fetchAsyncUpdateTask = createAsyncThunk(
     "task/updateTask",
     async (task: POST_TASK) => {
         const res = await axios.put<READ_TASK>(
-            `${process.env.BASE_API_URL}/api/v1/tasks/${task.id}/`,
+            `${process.env.REACT_APP_API_URL}/api/v1/tasks/${task.id}/`,
             task,
             {
                 headers: {
@@ -98,7 +98,7 @@ export const fetchAsyncUpdateTask = createAsyncThunk(
 export const fetchAsyncDeleteTask = createAsyncThunk(
     "task/deleteTask",
     async (id: number) => {
-        await axios.delete(`${process.env.BASE_API_URL}/api/v1/tasks/${id}/`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/tasks/${id}/`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `JWT ${localStorage.localJWT}`,
@@ -115,9 +115,9 @@ export const initialState: TASK_STATE = {
             title: "",
             description: "",
             owner: 0,
-            owner_username: "",
+            owner_id: 0,
             responsible: 0,
-            responsible_username: "",
+            responsible_id: 0,
             estimate: 0,
             category: 0,
             category_item: "",
@@ -141,9 +141,9 @@ export const initialState: TASK_STATE = {
         title: "",
         description: "",
         owner: 0,
-        owner_username: "",
+        owner_id: 0,
         responsible: 0,
-        responsible_username: "",
+        responsible_id: 0,
         estimate: 0,
         category: 0,
         category_item: "",
@@ -188,7 +188,7 @@ export const taskSlice = createSlice({
             }
         );
         builder.addCase(fetchAsyncGetTasks.rejected, () => {
-            window.location.href = "/";
+            window.location.href = "/login";
         });
         builder.addCase(
             fetchAsyncGetUsers.fulfilled,
@@ -218,7 +218,7 @@ export const taskSlice = createSlice({
             }
         );
         builder.addCase(fetchAsyncCreateCategory.rejected, () => {
-            window.location.href = "/";
+            window.location.href = "/login";
         });
         builder.addCase(
             fetchAsyncCreateTask.fulfilled,
@@ -231,7 +231,7 @@ export const taskSlice = createSlice({
             }
         );
         builder.addCase(fetchAsyncCreateTask.rejected, () => {
-            window.location.href = "/";
+            window.location.href = "/login";
         });
         builder.addCase(
             fetchAsyncUpdateTask.fulfilled,
@@ -247,7 +247,7 @@ export const taskSlice = createSlice({
             }
         );
         builder.addCase(fetchAsyncUpdateTask.rejected, () => {
-            window.location.href = "/";
+            window.location.href = "/login";
         });
         builder.addCase(
             fetchAsyncDeleteTask.fulfilled,
@@ -261,7 +261,7 @@ export const taskSlice = createSlice({
             }
         );
         builder.addCase(fetchAsyncDeleteTask.rejected, () => {
-            window.location.href = "/";
+            window.location.href = "/login";
         });
     },
 });

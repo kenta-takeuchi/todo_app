@@ -1,14 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Grid,
-    makeStyles,
     createMuiTheme,
     MuiThemeProvider,
     Theme, Button
 } from "@material-ui/core";
 
+import {AppDispatch} from "../../app/store";
+
 import styles from "./css/top.module.css"
+import {
+    fetchAsyncGetTasks,
+    fetchAsyncGetUsers,
+    fetchAsyncGetCategory,
+} from "../../features/task/taskSlice";
 import TaskList from "../../features/task/TaskList";
+import {useDispatch} from "react-redux";
 
 const theme = createMuiTheme({
     palette: {
@@ -18,21 +25,23 @@ const theme = createMuiTheme({
     },
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-    icon: {
-        marginTop: theme.spacing(3),
-        cursor: "none",
-    },
-}));
-
 
 export const Top: React.FC = () => {
-    const classes = useStyles();
+    const dispatch: AppDispatch = useDispatch();
 
     const logout = () => {
         localStorage.removeItem("localJWT")
-        window.location.href = "/"
+        window.location.href = "/login"
     }
+
+    useEffect(() => {
+        const fetchBootLoader = async () => {
+            await dispatch(fetchAsyncGetTasks());
+            await dispatch(fetchAsyncGetUsers());
+            await dispatch(fetchAsyncGetCategory());
+        };
+        fetchBootLoader();
+    }, [dispatch]);
 
     return (
         <MuiThemeProvider theme={theme}>
@@ -42,7 +51,7 @@ export const Top: React.FC = () => {
                         <h1>タスク管理アプリ</h1>
                     </Grid>
                     <Grid item xs={6}>
-                        <Button className={styles.app__button} variant="outlined" onClick={logout} >
+                        <Button className={styles.app__button} variant="outlined" onClick={logout}>
                             タスク新規登録
                         </Button>
                         <Button className={styles.app__button} variant="outlined" onClick={logout}>
@@ -50,7 +59,7 @@ export const Top: React.FC = () => {
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
-                        <TaskList />
+                        <TaskList/>
                     </Grid>
                 </Grid>
             </div>
